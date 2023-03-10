@@ -9,7 +9,8 @@ function submitIssue(e) {
   const assignedTo = getInputValue('issueAssignedTo');
   const id = Math.floor(Math.random()*100000000) + '';
   const status = 'Open';
-  const issue = { id, description, severity, assignedTo, status };
+  const time = new Date().toLocaleString();
+  const issue = { id, description, severity, assignedTo, status, time };
   if (description === "" || assignedTo === ""){
     alert('please input something')
     return;
@@ -25,7 +26,7 @@ function submitIssue(e) {
 }
 
 const closeIssue = id => {
-  let issues = JSON.parse(localStorage.getItem('issues'));
+  const issues = JSON.parse(localStorage.getItem('issues'));
   const issueIndex = issues.findIndex(issue => issue.id === id);
   if (issueIndex !== -1) {
     issues[issueIndex].status = 'Closed';
@@ -46,13 +47,15 @@ const fetchIssues = () => {
   issuesList.innerHTML = '';
 
   for (var i = 0; i < issues.length; i++) {
-    const {id, description, severity, assignedTo, status} = issues[i];
+    const {id, description, severity, assignedTo, status, time} = issues[i];
+    const timeString = new Date(time).toLocaleString();
   
     issuesList.innerHTML += `<div class="jumbotron border py-4">
       <h6>Issue ID: ${id} </h6>
+      <p><span class="time">Submitted: ${timeString}</span></p>
       <p><span class="label rounded px-2 ${status === 'Closed' ? 'bg-success' : 'bg-warning'}"> ${status} </span></p>
       <h3> ${description} </h3>
-      <p><span class="time"></span> ${severity}</p>
+      <p><span>Severity: </span> ${severity}</p>
       <p><span class="user"></span> ${assignedTo}</p>
       <a onclick="closeIssue('${id}')" class="btn btn-warning font-weight-bold">Close</a>
       <a onclick="deleteIssue('${id}')" class="btn btn-danger font-weight-bold">Delete</a>
@@ -60,3 +63,4 @@ const fetchIssues = () => {
   }
   
 }
+
