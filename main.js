@@ -1,5 +1,6 @@
 document.getElementById('issueInputForm').addEventListener('submit', submitIssue);
 const getInputValue = id => document.getElementById(id).value;
+const issuesList = document.getElementById('issuesList');
 let issues = [];
 
 function submitIssue(e) {
@@ -9,7 +10,10 @@ function submitIssue(e) {
   const id = Math.floor(Math.random()*100000000) + '';
   const status = 'Open';
   const issue = { id, description, severity, assignedTo, status };
-
+  if (description === "" && assignedTo === ""){
+    alert('please input something')
+    return;
+  }
   if (localStorage.getItem('issues')){
     issues = JSON.parse(localStorage.getItem('issues'));
   }
@@ -39,7 +43,6 @@ const deleteIssue = id => {
 
 const fetchIssues = () => {
   const issues = JSON.parse(localStorage.getItem('issues'));
-  const issuesList = document.getElementById('issuesList');
   issuesList.innerHTML = '';
 
   for (var i = 0; i < issues.length; i++) {
