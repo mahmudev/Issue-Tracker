@@ -10,7 +10,7 @@ function submitIssue(e) {
   const id = Math.floor(Math.random()*100000000) + '';
   const status = 'Open';
   const issue = { id, description, severity, assignedTo, status };
-  if (description === "" && assignedTo === ""){
+  if (description === "" || assignedTo === ""){
     alert('please input something')
     return;
   }
@@ -48,14 +48,14 @@ const fetchIssues = () => {
   for (var i = 0; i < issues.length; i++) {
     const {id, description, severity, assignedTo, status} = issues[i];
   
-    issuesList.innerHTML += `<div class="well">
+    issuesList.innerHTML += `<div class="jumbotron border py-4">
       <h6>Issue ID: ${id} </h6>
-      <p><span class="label ${status === 'Closed' ? 'label-closed' : 'label-info'}"> ${status} </span></p>
+      <p><span class="label rounded px-2 ${status === 'Closed' ? 'bg-success' : 'bg-warning'}"> ${status} </span></p>
       <h3> ${description} </h3>
       <p><span class="time"></span> ${severity}</p>
       <p><span class="user"></span> ${assignedTo}</p>
-      <a onclick="closeIssue('${id}')" class="btn btn-warning">Close</a>
-      <a onclick="deleteIssue('${id}')" class="btn btn-danger">Delete</a>
+      <a onclick="closeIssue('${id}')" class="btn btn-warning font-weight-bold">Close</a>
+      <a onclick="deleteIssue('${id}')" class="btn btn-danger font-weight-bold">Delete</a>
       </div>`;
   }
   
